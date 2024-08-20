@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  bot:
+    image: python:3.9  # Menggunakan image Python sebagai dasar
+    volumes:
+      - ./app:/usr/src/app  # Mengaitkan direktori app ke dalam container
+    working_dir: /usr/src/app
+    command: python bot.py  # Perintah untuk menjalankan bot
+    environment:
+      - BOT_TOKEN=your-bot-token  # Token bot yang disimpan sebagai variabel lingkungan
+    restart: unless-stopped  # Pastikan bot selalu berjalan
+
+  db:
+    image: postgres:13  # Database PostgreSQL untuk menyimpan data bot
+    environment:
+      POSTGRES_DB: botdb
+      POSTGRES_USER: botuser
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
